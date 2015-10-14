@@ -9,7 +9,25 @@
 <body>
 <p class="notice"><%= notice %></p>
 <p class="alert"><%= alert %></p>
-
+<% if user_signed_in? %>
+  <h1><%= current_user.email %> <%= link_to "Logout", destroy_user_session_path, method: :delete %></h1>
+<% else %>
+  <%= link_to "sign in", new_user_session_path %>
+<% end %>
+<div class="actions">
+  <table class="table table-striped">
+    <tr>
+      <th>STT</th>
+      <th>Actions</th>
+    </tr>
+    <% Version.all.each.with_index do |v, index| %>
+      <tr>
+        <td><%= index %></td>
+        <td><%= "Account have email #{v.get_email} has been #{v.event} at #{v.created_at.strftime('at %I:%M%p %d-%m-%Y')}" %></td>
+      </tr>
+    <% end %>
+  </table>
+</div>
 <%= yield %>
 
 </body>
